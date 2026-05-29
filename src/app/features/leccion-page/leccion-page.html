@@ -1,0 +1,43 @@
+<section class="bg-base-200 min-h-screen py-10 px-8">
+  <div class="max-w-5xl mx-auto">
+
+    <h1 class="text-4xl font-extrabold tracking-tight mb-10">Paises del Mundo</h1>
+    <p class="text-base-content/60 text-lg mb-6">
+      Explorador de paises 
+    </p>
+
+    @if (paisesResource.isLoading()) {
+      <div class="flex justify-center items-center h-64">
+        <span class="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    }
+
+    @if (paisesResource.error()) {
+      <div class="alert alert-error max-w-lg mx-auto mt-8">
+        <span>Error al cargar los paises. Intenta de nuevo.</span>
+      </div>
+    }
+
+    @if (paisesResource.hasValue()) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        @for (pais of paisesResource.value()!; track pais.name.common) {
+          <a
+            [routerLink]="['/harry', pais.name.common]"
+            class="card card-bordered bg-base-100 shadow hover:shadow-lg transition-shadow cursor-pointer">
+            <figure class="pt-6">
+              <img
+                [src]="pais.flags.png"
+                [alt]="pais.flags.alt || pais.name.common"
+                class="w-24 h-16 object-cover" />
+            </figure>
+            <div class="card-body items-center text-center p-4">
+              <h2 class="card-title text-sm">{{ pais.name.common }}</h2>
+              <p class="text-xs text-base-content/60">{{ pais.capital?.[0] ?? 'Sin capital' }}</p>
+            </div>
+          </a>
+        }
+      </div>
+    }
+
+  </div>
+</section>

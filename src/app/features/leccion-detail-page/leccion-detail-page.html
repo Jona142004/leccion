@@ -1,0 +1,48 @@
+<section class="mx-auto max-w-4xl space-y-6">
+    <a
+        routerLink="/"
+        class="btn btn-ghost btn-sm"
+    >← Volver al listado</a>
+
+    @if (characterResource.isLoading()) {
+    <div class="flex h-56 items-center justify-center">
+        <span class="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+    }
+
+    @if (characterResource.error()) {
+    <div class="alert alert-error">
+        <span>No se pudo cargar el pais.</span>
+    </div>
+    }
+
+    @if (characterResource.hasValue()) {
+    <article class="card border border-base-300 bg-base-100 shadow-sm">
+        <div class="card-body gap-6 md:flex-row">
+            <div class="mx-auto md:mx-0">
+                <img
+                    [src]="characterResource.value()!.flags.png"
+                    [alt]="characterResource.value()!.flags.alt || characterResource.value()!.name.common"
+                    class="h-40 w-64 rounded-2xl object-cover ring ring-base-300 ring-offset-2 ring-offset-base-100"
+                />
+            </div>
+
+            <div class="space-y-3">
+                <h2 class="text-3xl font-black tracking-tight">
+                    {{ characterResource.value()!.name.common }}
+                </h2>
+
+                <p class="text-base-content/80">
+                    <strong>Nombre oficial:</strong>
+                    {{ characterResource.value()!.name.official }}
+                </p>
+
+                <p class="text-base-content/80">
+                    <strong>Capital:</strong>
+                    {{ characterResource.value()!.capital?.[0] ?? 'Sin capital registrada' }}
+                </p>
+            </div>
+        </div>
+    </article>
+    }
+</section>
